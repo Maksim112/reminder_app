@@ -12,4 +12,8 @@ class User < ActiveRecord::Base
   before_validation do
   	self.plan ||=Plan.find_by_name(:free)
   end
+
+  def over_limit?
+    self.plan.limit.to_i > 0 && self.sms_usage >+ self.plan.limit
+  end
 end
